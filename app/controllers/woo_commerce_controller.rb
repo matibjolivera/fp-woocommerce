@@ -9,7 +9,7 @@ class WooCommerceController < ApplicationController
 
     puts "GET Request - URL: " + uri
 
-    JSON.parse(RestClient.get(set_api_keys(url)))
+    JSON.parse(RestClient.get(set_api_keys(uri)))
   end
 
   def get_url_params
