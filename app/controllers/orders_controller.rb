@@ -14,7 +14,7 @@ class OrdersController < WooCommerceController
   def save
     orders = get_orders
     orders.each do |order|
-      puts order["id"]
+      Order.find_or_create_by(reference: order["id"])
     end
   end
 end

@@ -4,6 +4,6 @@ class Order
 
 	field :reference, type: String
 
-	embeds_one :billing
-	embeds_one :shipping
+  #embeds_one :billing
+  #embeds_one :shipping
 end
