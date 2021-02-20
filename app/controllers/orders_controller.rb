@@ -14,7 +14,7 @@ class OrdersController < WooCommerceController
   def save
     orders = get_orders
     orders.each do |order|
-      puts order[:id]
+      puts order["id"]
     end
   end
 end
