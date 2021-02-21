@@ -2,7 +2,7 @@ class OrdersController < WooCommerceController
   ORDERS_RESOURCE = "orders/"
 
   def index
-    @result = Order.all
+    @result = JSON.parse(Order.all)
     render "index"
   end
 
