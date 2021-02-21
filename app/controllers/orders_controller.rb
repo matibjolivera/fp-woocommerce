@@ -14,9 +14,6 @@ class OrdersController < WooCommerceController
   def save
     orders = get_orders
     orders.each do |external_order|
-      puts external_order["id"]
-      puts external_order["billing"]
-      puts external_order["shipping"]
       order = Order.find_or_create_by(reference: external_order["id"])
       order.billing = order.create_billing(build_address(external_order["billing"]))
       order.shipping = order.create_shipping(build_address(external_order["shipping"]))
