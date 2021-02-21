@@ -1,1 +1,1 @@
-json.merge!(@result)
+json.result @result
