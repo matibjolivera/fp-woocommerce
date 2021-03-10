@@ -6,15 +6,14 @@ class OrdersController < WooCommerceController
     render "index"
   end
 
+  STATUSES_APPROVED = %w[processing completed etiqueta-generada codigo-enviado empaquetado etiqueta-impresa regenerar etiqueta-manual sin-talle talles-manual regenerada nuevo-seguimiento glovo reclamo]
+
   def create
     unless params[:id].present?
       raise "no ID present"
     end
-    order = Order.find_by(reference: params[:id])
-    if order.nil?
-      order = Order.create!(reference: params[:id])
-      order.billing = order.create_billing(build_address(params[:billing]))
-      order.shipping = order.create_shipping(build_address(params[:shipping]))
+    if !exist_order(params) and params[:status] == 'processing'
+      new_order(params)
     end
   end
 
@@ -24,6 +23,16 @@ class OrdersController < WooCommerceController
   end
 
   private
+
+  def exist_order(params)
+    Order.find_by(reference: params[:id]) ? true : false
+  end
+
+  def new_order (params)
+    order = Order.create!(reference: params[:id])
+    order.billing = order.create_billing(build_address(params[:billing]))
+    order.shipping = order.create_shipping(build_address(params[:shipping]))
+  end
 
   def build_address(external_info)
     {
