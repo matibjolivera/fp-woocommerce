@@ -8,7 +8,9 @@ class OrdersController < WooCommerceController
 
   def create
     puts "BODYYYYYYYYYYYYYYYYYYYYYYYYYY"
-    puts request.body
+    data = request.body.read
+    puts data
+    puts data[:id]
   end
 
   def get_orders
