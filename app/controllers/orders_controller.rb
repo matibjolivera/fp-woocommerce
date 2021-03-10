@@ -7,9 +7,11 @@ class OrdersController < WooCommerceController
   end
 
   def create
-    puts "BODYYYYYYYYYYYYYYYYYYYYYYYYYY"
-    data = request.body.read
+    puts "BODY"
+    data = request.body
     puts data
+    puts data.to_extended_json
+    puts data.to_bson_key
     puts data[:id]
   end
 
