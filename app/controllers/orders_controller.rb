@@ -7,6 +7,7 @@ class OrdersController < WooCommerceController
   end
 
   def create
+    puts "BODYYYYYYYYYYYYYYYYYYYYYYYYYY"
     puts request.body
   end
 
