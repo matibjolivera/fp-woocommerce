@@ -3,9 +3,8 @@ class Order
   include Mongoid::Timestamps
 
   field :reference, type: String
+  field :saved, type: Boolean
 
   embeds_one :billing
   embeds_one :shipping
-
-  index({ reference: 1 }, { unique: true })
 end

@@ -6,17 +6,24 @@ class OrdersController < WooCommerceController
     render "index"
   end
 
+  def create
+    puts request.body
+  end
+
   def get_orders
     resource = ORDERS_RESOURCE
     get(resource, get_url_params)
   end
 
-  def save
+  def pull
     orders = get_orders
     orders.each do |external_order|
-      order = Order.find_or_create_by(reference: external_order["id"])
-      order.billing = order.create_billing(build_address(external_order["billing"]))
-      order.shipping = order.create_shipping(build_address(external_order["shipping"]))
+      order = Order.find_by(reference: external_order["id"])
+      if order.nil?
+        order = Order.create!(reference: external_order["id"])
+        order.billing = order.create_billing(build_address(external_order["billing"]))
+        order.shipping = order.create_shipping(build_address(external_order["shipping"]))
+      end
     end
   end
 
