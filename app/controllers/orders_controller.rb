@@ -7,26 +7,20 @@ class OrdersController < WooCommerceController
   end
 
   def create
-    puts "BODY"
-    puts params
-    puts params[:id]
+    unless params[:id].present?
+      raise "no ID present"
+    end
+    order = Order.find_by(reference: params[:id])
+    if order.nil?
+      order = Order.create!(reference: params[:id])
+      order.billing = order.create_billing(build_address(params[:billing]))
+      order.shipping = order.create_shipping(build_address(params[:shipping]))
+    end
   end
 
   def get_orders
     resource = ORDERS_RESOURCE
     get(resource, get_url_params)
-  end
-
-  def pull
-    orders = get_orders
-    orders.each do |external_order|
-      order = Order.find_by(reference: external_order["id"])
-      if order.nil?
-        order = Order.create!(reference: external_order["id"])
-        order.billing = order.create_billing(build_address(external_order["billing"]))
-        order.shipping = order.create_shipping(build_address(external_order["shipping"]))
-      end
-    end
   end
 
   private
